@@ -19,11 +19,11 @@ module.exports = class extends Generator {
         type: 'confirm',
         name: 'someAnswer',
         message: 'Would you like to enable this option?',
-        default: true
-      }
+        default: true,
+      },
     ];
 
-    return this.prompt(prompts).then(props => {
+    return this.prompt(prompts).then((props) => {
       // To access props later use this.props.someAnswer;
       this.props = props;
     });
