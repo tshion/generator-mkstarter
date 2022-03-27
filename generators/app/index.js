@@ -16,6 +16,11 @@ module.exports = class extends Generator {
 
     const prompts = [
       {
+        type: 'input',
+        name: 'appName',
+        message: 'Would you like to set app name?',
+      },
+      {
         type: 'confirm',
         name: 'someAnswer',
         message: 'Would you like to enable this option?',
@@ -29,8 +34,11 @@ module.exports = class extends Generator {
     });
   }
 
-  writing() {
-    this.fs.copy(this.templatePath(''), this.destinationPath('tmp'));
+  async writing() {
+    const appName = this.props.appName;
+
+    const distPath = this.destinationPath(appName);
+    this.fs.copy(this.templatePath(''), distPath);
   }
 
   install() {
