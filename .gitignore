@@ -212,3 +212,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+
+###############
+### Project ###
+###############
+dist/
