@@ -6,6 +6,11 @@ const yosay = require('yosay');
 
 module.exports = class extends Generator {
 
+  /**
+   * パス構成の設定
+   *
+   * @see {@link https://yeoman.io/authoring/file-system.html}
+   */
   paths() {
     const sourceRootPath = path.join(
       this.sourceRoot(),
