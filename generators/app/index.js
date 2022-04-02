@@ -1,9 +1,20 @@
 'use strict';
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
+const path = require('path');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
+
+  paths() {
+    const sourceRootPath = path.join(
+      this.sourceRoot(),
+      `../../../templates`
+    );
+    this.sourceRoot(sourceRootPath);
+  }
+
+
   prompting() {
     // Have Yeoman greet the user.
     this.log(
