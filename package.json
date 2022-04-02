@@ -1,28 +1,7 @@
 {
-    "name": "generator-mkstarter-android",
-    "description": "Starts android projects with tshion's templates.",
-    "engines": {
-        "npm": ">= 4.0.0"
-    },
-    "files": [
-        "dist/app"
-    ],
-    "license": "MIT",
-    "main": "generators/index.js",
-    "keywords": [
-        "android",
-        "yeoman-generator"
-    ],
-    "repository": "tshion/generator-mkstarter-android",
+    "private": "true",
     "version": "0.0.1",
-    "dependencies": {
-        "chalk": "^2.1.0",
-        "yeoman-generator": "^5.6.1",
-        "yosay": "^2.0.2"
-    },
-    "devDependencies": {
-        "@types/node": "^16.11.7",
-        "@types/yeoman-generator": "^5.2.9",
-        "@types/yosay": "^2.0.1"
-    }
+    "workspaces": [
+        "generators"
+    ]
 }

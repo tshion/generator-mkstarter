@@ -25,4 +25,8 @@ yo mkstarter-android
  * Feel free to [learn more about Yeoman](http://yeoman.io/).
 
 ### How to develop
-(In Progress)
+#### Yeoman Generator
+1. ```npm ci``` at project root.
+2. ```npm link generators``` at project root.
+
+When you finish above, edit files in ```generators```.
