@@ -5,23 +5,20 @@ const path = require('path');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
+  /**
+   * 回答
+   * @type {{ appName: string; }}
+   */
+  _answers;
 
   /**
-   * パス構成の設定
+   * Your initialization methods (checking current project state, getting configs, etc)
    *
-   * @see {@link https://yeoman.io/authoring/file-system.html}
+   * @see {@link https://yeoman.io/authoring/running-context.html}
    */
-  paths() {
-    const sourceRootPath = path.join(
-      this.sourceRoot(),
-      `../../../templates`
-    );
-    this.sourceRoot(sourceRootPath);
-  }
+  initializing() {
+    this.sourceRoot(this._getSourceRootPath());
 
-
-  prompting() {
-    // Have Yeoman greet the user.
     this.log(
       yosay(
         `Welcome to the great ${chalk.red(
@@ -29,35 +26,76 @@ module.exports = class extends Generator {
         )} generator!`
       )
     );
+  }
 
-    const prompts = [
+  /**
+   * Where you prompt users for options (where you’d call this.prompt())
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  async prompting() {
+    this._answers = await this.prompt([
       {
         type: 'input',
         name: 'appName',
         message: 'Would you like to set app name?',
       },
-      {
-        type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true,
-      },
-    ];
-
-    return this.prompt(prompts).then((props) => {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-    });
+    ]);
   }
 
+  /**
+   * Saving configurations and configure the project (creating .editorconfig files and other metadata files)
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  // configuring() {}
+
+  /**
+   * If the method name doesn’t match a priority, it will be pushed to this group.
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  // default() {}
+
+  /**
+   * Where you write the generator specific files (routes, controllers, etc)
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
   async writing() {
-    const appName = this.props.appName;
+    const appName = this._answers.appName;
 
     const distPath = this.destinationPath(appName);
     this.fs.copy(this.templatePath(''), distPath);
   }
 
-  install() {
-    this.installDependencies();
+  /**
+   * Where conflicts are handled (used internally)
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  // conflicts() {}
+
+  /**
+   * Where installations are run (npm, bower)
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  // install() {}
+
+  /**
+   * Called last, cleanup, say good bye, etc
+   *
+   * @see {@link https://yeoman.io/authoring/running-context.html}
+   */
+  // end() {}
+
+  /**
+   * テンプレートファイルのルートパス取得
+   *
+   * @see {@link https://yeoman.io/authoring/file-system.html}
+   */
+  _getSourceRootPath() {
+    return path.join(this.sourceRoot(), `../../../templates`);
   }
 };
