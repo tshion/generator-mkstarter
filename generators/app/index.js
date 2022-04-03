@@ -2,12 +2,13 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const path = require('path');
+const replaceInFile = require('replace-in-file');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
   /**
    * 回答
-   * @type {{ appName: string; }}
+   * @type {{ appName: string; packageId: string; }}
    */
   _answers;
 
@@ -21,9 +22,7 @@ module.exports = class extends Generator {
 
     this.log(
       yosay(
-        `Welcome to the great ${chalk.red(
-          'generator-mkstarter'
-        )} generator!`
+        `Welcome to the great ${chalk.red('generator-mkstarter')} generator!`
       )
     );
   }
@@ -35,6 +34,11 @@ module.exports = class extends Generator {
    */
   async prompting() {
     this._answers = await this.prompt([
+      {
+        type: 'input',
+        name: 'packageId',
+        message: 'Would you like to set package id?',
+      },
       {
         type: 'input',
         name: 'appName',
@@ -64,9 +68,27 @@ module.exports = class extends Generator {
    */
   async writing() {
     const appName = this._answers.appName;
+    const packages = this._answers.packageId.split('.');
 
     const distPath = this.destinationPath(appName);
-    this.fs.copy(this.templatePath(''), distPath);
+    this.fs.copy(this.templatePath(''), distPath, {
+      globOptions: { dot: true },
+      processDestinationPath: (targetPath) => {
+        const keyword = `java`;
+        if (!targetPath.includes(keyword)) {
+          return targetPath;
+        }
+
+        const targetDirName = path.dirname(targetPath);
+        const targetFileName = path.basename(targetPath);
+        return path.join(
+          targetDirName.substring(0, targetDirName.indexOf(keyword)),
+          keyword,
+          ...packages,
+          targetFileName
+        );
+      },
+    });
   }
 
   /**
@@ -88,7 +110,15 @@ module.exports = class extends Generator {
    *
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
-  // end() {}
+  async end() {
+    const appName = this._answers.appName;
+
+    await replaceInFile({
+      files: [`${this.destinationPath(appName)}/**/*.*`],
+      from: [/com\.github\.mkstarter/g, /mkstarter/g],
+      to: [`${this._answers.packageId}`, `${appName}`],
+    });
+  }
 
   /**
    * テンプレートファイルのルートパス取得
