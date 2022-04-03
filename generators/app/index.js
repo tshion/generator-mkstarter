@@ -22,7 +22,7 @@ module.exports = class extends Generator {
     this.log(
       yosay(
         `Welcome to the great ${chalk.red(
-          'generator-mkstarter-android'
+          'generator-mkstarter'
         )} generator!`
       )
     );

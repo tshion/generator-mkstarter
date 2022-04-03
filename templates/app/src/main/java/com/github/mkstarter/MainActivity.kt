@@ -1,4 +1,4 @@
-package com.example.mkstarter_android
+package com.github.mkstarter
 
 import androidx.appcompat.app.AppCompatActivity
 

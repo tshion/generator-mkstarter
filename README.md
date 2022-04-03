@@ -1,19 +1,19 @@
-# generator-mkstarter-android
-> Starts android projects with tshion&#39;s templates.
+# generator-mkstarter
+Starts projects with tshion's templates.
 
 
-## How to use
-First, install [Yeoman](http://yeoman.io) and generator-mkstarter-android using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+## How to use(WIP)
+First, install [Yeoman](http://yeoman.io) and generator-mkstarter using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-mkstarter-android
+npm install -g generator-mkstarter
 ```
 
 Then generate your new project:
 
 ```bash
-yo mkstarter-android
+yo mkstarter
 ```
 
 

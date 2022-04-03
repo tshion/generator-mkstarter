@@ -16,7 +16,7 @@ android {
     }
     compileSdk 31
     defaultConfig {
-        applicationId "com.example.mkstarter_android"
+        applicationId "com.github.mkstarter"
         minSdk 23
         targetSdk 31
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

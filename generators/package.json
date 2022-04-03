@@ -1,6 +1,6 @@
 {
-    "name": "generator-mkstarter-android",
-    "description": "Starts android projects with tshion's templates.",
+    "name": "generator-mkstarter",
+    "description": "Starts projects with tshion's templates.",
     "engines": {
         "npm": ">= 4.0.0"
     },
@@ -10,7 +10,7 @@
         "android",
         "yeoman-generator"
     ],
-    "repository": "tshion/generator-mkstarter-android",
+    "repository": "tshion/generator-mkstarter",
     "version": "0.0.1",
     "dependencies": {
         "chalk": "^4.1.2",
