@@ -2,7 +2,6 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const path = require('path');
-const replaceInFile = require('replace-in-file');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
@@ -69,10 +68,22 @@ module.exports = class extends Generator {
   async writing() {
     const appName = this._answers.appName;
     const packages = this._answers.packageId.split('.');
+    const replaceExts = [`.gradle`, `.java`, `.kt`, `.pro`, `.xml`];
 
     const distPath = this.destinationPath(appName);
     this.fs.copy(this.templatePath(''), distPath, {
       globOptions: { dot: true },
+      process: (contents, targetPath) => {
+        const targetExt = path.extname(targetPath);
+        if (!replaceExts.some((ext) => targetExt === ext)) {
+          return contents;
+        }
+
+        return contents
+          .toString()
+          .replace(/com\.github\.mkstarter/g, `${this._answers.packageId}`)
+          .replace(/mkstarter/g, `${appName}`);
+      },
       processDestinationPath: (targetPath) => {
         const keyword = `java`;
         if (!targetPath.includes(keyword)) {
@@ -110,15 +121,7 @@ module.exports = class extends Generator {
    *
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
-  async end() {
-    const appName = this._answers.appName;
-
-    await replaceInFile({
-      files: [`${this.destinationPath(appName)}/**/*.*`],
-      from: [/com\.github\.mkstarter/g, /mkstarter/g],
-      to: [`${this._answers.packageId}`, `${appName}`],
-    });
-  }
+  // end() {}
 
   /**
    * テンプレートファイルのルートパス取得
