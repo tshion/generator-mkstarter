@@ -32,6 +32,18 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
+    const choices = [{name: "dummy1", value: "1"}, {name: "dummy2", value: "2"}];
+    const selected = await this.prompt([
+      {
+        type: 'list',
+        name: 'type',
+        message: 'What type of extension do you want to create?',
+        pageSize: choices.length,
+        choices,
+      },
+    ]);
+    this.log(`selected: ${selected}`);
+
     this._answers = await this.prompt([
       {
         type: 'input',
