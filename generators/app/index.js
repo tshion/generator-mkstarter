@@ -83,7 +83,7 @@ module.exports = class extends Generator {
     const replaceExts = [`.gradle`, `.java`, `.kt`, `.pro`, `.xml`];
 
     const distPath = this.destinationPath(appName);
-    this.fs.copy(this.templatePath(''), distPath, {
+    this.fs.copy(this.templatePath('android_kt'), distPath, {
       globOptions: { dot: true },
       process: (contents, targetPath) => {
         const targetExt = path.extname(targetPath);
