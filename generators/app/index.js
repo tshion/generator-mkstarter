@@ -4,12 +4,20 @@ const chalk = require('chalk');
 const path = require('path');
 const yosay = require('yosay');
 
+const commandAndroidKotlin = require('./generators/android-kt.generator');
+
+const commands = [commandAndroidKotlin, commandAndroidKotlin];
+
 module.exports = class extends Generator {
   /**
    * 回答
    * @type {{ appName: string; packageId: string; }}
    */
   _answers;
+
+  _config;
+
+  _generator;
 
   /**
    * Your initialization methods (checking current project state, getting configs, etc)
@@ -32,30 +40,25 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
-    const choices = [{name: "dummy1", value: "1"}, {name: "dummy2", value: "2"}];
-    const selected = await this.prompt([
-      {
-        type: 'list',
-        name: 'type',
-        message: 'What type of extension do you want to create?',
-        pageSize: choices.length,
-        choices,
-      },
-    ]);
-    this.log(`selected: ${selected}`);
+    const choices = [];
+    for (const c of commands) {
+      choices.push({ name: c.name, value: c.id });
+    }
 
-    this._answers = await this.prompt([
-      {
-        type: 'input',
-        name: 'packageId',
-        message: 'Would you like to set package id?',
-      },
-      {
-        type: 'input',
-        name: 'appName',
-        message: 'Would you like to set app name?',
-      },
-    ]);
+    const type = (
+      await this.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: 'What type of extension do you want to create?',
+          pageSize: choices.length,
+          choices,
+        },
+      ])
+    ).type;
+
+    this._generator = commands.find((g) => g.id === type);
+    await this._generator.prompting(this, this._config)
   }
 
   /**
@@ -78,40 +81,7 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async writing() {
-    const appName = this._answers.appName;
-    const packages = this._answers.packageId.split('.');
-    const replaceExts = [`.gradle`, `.java`, `.kt`, `.pro`, `.xml`];
-
-    const distPath = this.destinationPath(appName);
-    this.fs.copy(this.templatePath('android_kt'), distPath, {
-      globOptions: { dot: true },
-      process: (contents, targetPath) => {
-        const targetExt = path.extname(targetPath);
-        if (!replaceExts.some((ext) => targetExt === ext)) {
-          return contents;
-        }
-
-        return contents
-          .toString()
-          .replace(/com\.github\.mkstarter/g, `${this._answers.packageId}`)
-          .replace(/mkstarter/g, `${appName}`);
-      },
-      processDestinationPath: (targetPath) => {
-        const keyword = `java`;
-        if (!targetPath.includes(keyword)) {
-          return targetPath;
-        }
-
-        const targetDirName = path.dirname(targetPath);
-        const targetFileName = path.basename(targetPath);
-        return path.join(
-          targetDirName.substring(0, targetDirName.indexOf(keyword)),
-          keyword,
-          ...packages,
-          targetFileName
-        );
-      },
-    });
+    return this._generator.writing(this, this._config);
   }
 
   /**
