@@ -30,3 +30,9 @@ yo mkstarter
 2. ```npm link generators``` at project root.
 
 When you finish above, edit files in ```generators```.
+
+
+
+## References
+* [microsoft/vscode-generator-code: Visual Studio Code extension generator](https://github.com/microsoft/vscode-generator-code)
+* [The web's scaffolding tool for modern webapps | Yeoman](https://yeoman.io/)
