@@ -4,11 +4,14 @@ const chalk = require('chalk');
 const path = require('path');
 const yosay = require('yosay');
 
+const argsModel = require('./args.model');
 const commandAndroidKotlin = require('./generators/android-kt.generator');
 
 const commands = [commandAndroidKotlin, commandAndroidKotlin];
 
 module.exports = class extends Generator {
+  #argsModel;
+
   /**
    * 回答
    * @type {{ appName: string; packageId: string; }}
@@ -23,7 +26,8 @@ module.exports = class extends Generator {
     super(args, opts);
     this.description = `Generates a project ready for development.`;
 
-    this.option(`commandType`, { type: String, alias: `t` });
+    this.#argsModel = new argsModel(this);
+    this.#argsModel.setupReceiver();
   }
 
   /**
@@ -47,7 +51,7 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
-    const commandType = this.options[`commandType`];
+    const commandType = this.#argsModel.commandType();
     if (commandType) {
       this.log(`You selected ${commandType}`);
     } else {
