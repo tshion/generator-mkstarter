@@ -19,6 +19,13 @@ module.exports = class extends Generator {
 
   _generator;
 
+  constructor(args, opts) {
+    super(args, opts);
+    this.description = `Generates a project ready for development.`;
+
+    this.option(`commandType`, { type: String, alias: `t` });
+  }
+
   /**
    * Your initialization methods (checking current project state, getting configs, etc)
    *
@@ -40,25 +47,28 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
-    const choices = [];
-    for (const c of commands) {
-      choices.push({ name: c.name, value: c.id });
-    }
+    const commandType = this.options[`commandType`];
+    if (commandType) {
+      this.log(`You selected ${commandType}`);
+    } else {
+      const choices = [];
+      for (const c of commands) {
+        choices.push({ name: c.name, value: c.id });
+      }
 
-    const type = (
-      await this.prompt([
-        {
+      const type = (
+        await this.prompt({
           type: 'list',
           name: 'type',
           message: 'What type of extension do you want to create?',
           pageSize: choices.length,
           choices,
-        },
-      ])
-    ).type;
+        })
+      ).type;
 
-    this._generator = commands.find((g) => g.id === type);
-    await this._generator.prompting(this, this._config)
+      this._generator = commands.find((g) => g.id === type);
+      await this._generator.prompting(this, this._config);
+    }
   }
 
   /**
@@ -81,6 +91,9 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async writing() {
+    if (!this._generator) {
+      return;
+    }
     return this._generator.writing(this, this._config);
   }
 
