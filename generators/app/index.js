@@ -24,7 +24,6 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
-    this.description = `Generates a project ready for development.`;
 
     this.#argsModel = new argsModel(this);
     this.#argsModel.setupReceiver();
