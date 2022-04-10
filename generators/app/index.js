@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const path = require('path');
 const yosay = require('yosay');
 
-const argsModel = require('./args.model');
+const ArgsModel = require('./models/args.model');
 const commandAndroidKotlin = require('./generators/android-kt.generator');
 
 const commands = [commandAndroidKotlin, commandAndroidKotlin];
@@ -25,7 +25,7 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.#argsModel = new argsModel(this);
+    this.#argsModel = new ArgsModel(this);
     this.#argsModel.setupReceiver();
   }
 
