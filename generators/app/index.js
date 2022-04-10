@@ -50,7 +50,7 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
-    const commandType = this.#argsModel.commandType();
+    const commandType = this.#argsModel.commandType;
     if (commandType) {
       this.log(`You selected ${commandType}`);
     } else {

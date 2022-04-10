@@ -1,4 +1,4 @@
-const Config = require('./config.entity');
+const ConfigEntity = require('./config.entity');
 
 /**
  * コマンドライン引数関連ロジック
@@ -14,51 +14,63 @@ module.exports = class {
   }
 
   /**
-   * @returns {string|undefined} コマンド種別
+   * コマンド種別
+   * @type {string}
    */
-  commandType = () => this.#generator.options[Config.keyCommandType];
+  get commandType() {
+    return this.#generator.options[ConfigEntity.keyCommandType];
+  }
 
   /**
-   * @returns {string|undefined} 配置先
+   * 配置先
+   * @type {string}
    */
-  destination = () => this.#generator.options[Config.keyDestination];
+  get destination() {
+    return this.#generator.options[ConfigEntity.keyDestination];
+  }
 
   /**
-   * @returns {string|undefined} プロジェクトID
+   * プロジェクトID
+   * @type {string}
    */
-  projectId = () => this.#generator.options[Config.keyProjectId];
+  get projectId() {
+    return this.#generator.options[ConfigEntity.keyProjectId];
+  }
 
   /**
-   * @returns {string|undefined} プロジェクト名
+   * プロジェクト名
+   * @type {string}
    */
-  projectName = () => this.#generator.options[Config.keyProjectName];
+  get projectName() {
+    return this.#generator.options[ConfigEntity.keyProjectName];
+  }
 
   /**
    * 各設定値をコマンド引数から受け取るためのセットアップ
    */
-  setupReceiver = () => {
-    this.description = `Generates a project ready for development.`;
+  setupReceiver() {
+    this.#generator.description = `Generates a project ready for development.`;
 
-    this.#generator.argument(Config.keyDestination, {
+    this.#generator.argument(ConfigEntity.keyDestination, {
       type: String,
       required: false,
       description: `\n    The folder to create the project in, absolute or relative to the current working directory.\n    Use '.' for the current folder. If not provided, defaults to a folder with the project name.\n  `,
     });
 
-    this.#generator.option(Config.keyCommandType, {
+    this.#generator.option(ConfigEntity.keyCommandType, {
       type: String,
       alias: `type`,
       description: `Type of the project`,
     });
-    this.#generator.option(Config.keyProjectId, {
+    this.#generator.option(ConfigEntity.keyProjectId, {
       type: String,
       alias: `id`,
       description: `Id of the project`,
     });
-    this.#generator.option(Config.keyProjectName, {
+    this.#generator.option(ConfigEntity.keyProjectName, {
       type: String,
       alias: `name`,
       description: `Name of the project`,
     });
-  };
+  }
 };
