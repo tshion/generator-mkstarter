@@ -1,13 +1,10 @@
-exports.keyCommandType = `commandType`;
-exports.keyProjectId = `projectId`;
-exports.keyProjectName = `projectName`;
+const Config = require('./config.entity');
 
 /**
  * コマンドライン引数関連ロジック
  */
 module.exports = class {
   #generator;
-  #keyDestination = `destination`;
 
   /**
    * @param {import('yeoman-generator')} generator
@@ -19,22 +16,22 @@ module.exports = class {
   /**
    * @returns {string|undefined} コマンド種別
    */
-  commandType = () => this.#generator.options[exports.keyCommandType];
+  commandType = () => this.#generator.options[Config.keyCommandType];
 
   /**
    * @returns {string|undefined} 配置先
    */
-  destination = () => this.#generator.options[this.#keyDestination];
+  destination = () => this.#generator.options[Config.keyDestination];
 
   /**
    * @returns {string|undefined} プロジェクトID
    */
-  projectId = () => this.#generator.options[exports.keyProjectId];
+  projectId = () => this.#generator.options[Config.keyProjectId];
 
   /**
    * @returns {string|undefined} プロジェクト名
    */
-  projectName = () => this.#generator.options[exports.keyProjectName];
+  projectName = () => this.#generator.options[Config.keyProjectName];
 
   /**
    * 各設定値をコマンド引数から受け取るためのセットアップ
@@ -42,23 +39,23 @@ module.exports = class {
   setupReceiver = () => {
     this.description = `Generates a project ready for development.`;
 
-    this.#generator.argument(this.#keyDestination, {
+    this.#generator.argument(Config.keyDestination, {
       type: String,
       required: false,
       description: `\n    The folder to create the project in, absolute or relative to the current working directory.\n    Use '.' for the current folder. If not provided, defaults to a folder with the project name.\n  `,
     });
 
-    this.#generator.option(exports.keyCommandType, {
+    this.#generator.option(Config.keyCommandType, {
       type: String,
       alias: `type`,
       description: `Type of the project`,
     });
-    this.#generator.option(exports.keyProjectId, {
+    this.#generator.option(Config.keyProjectId, {
       type: String,
       alias: `id`,
       description: `Id of the project`,
     });
-    this.#generator.option(exports.keyProjectName, {
+    this.#generator.option(Config.keyProjectName, {
       type: String,
       alias: `name`,
       description: `Name of the project`,
