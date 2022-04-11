@@ -1,49 +1,37 @@
 const path = require('path');
 
+const ConfigEntity = require('../models/config.entity');
+const DialogueModel = require('../models/dialogue.model');
+const validators = require('../models/inspection.model');
+
 /**
- * Android(Kotlin) の生成
+ * Android プロジェクトの複製
  */
 module.exports = {
-  id: `ext-android-kt`,
-  name: `Android(Kotlin)`,
+  id: ConfigEntity.typeAndroid,
+  name: `New Android Project`,
 
   /**
    * @param {import('yeoman-generator')} generator
-   * @param {Object} config
+   * @param {import('../models/config.entity')} config
    */
   prompting: async (generator, config) => {
-    await generator
-      .prompt([
-        {
-          type: 'input',
-          name: 'packageId',
-          message: 'Would you like to set package id?',
-        },
-      ])
-      .then((answer) => (config.id = answer.packageId));
-
-    await generator
-      .prompt([
-        {
-          type: 'input',
-          name: 'appName',
-          message: 'Would you like to set app name?',
-        },
-      ])
-      .then((answer) => (config.name = answer.appName));
+    const model = new DialogueModel(generator);
+    await model.askForProjectName(config);
+    await model.askForProjectId(config, validators.validateProjectIdForJvm);
   },
 
   /**
    * @param {import('yeoman-generator')} generator
-   * @param {Object} config
+   * @param {import('../models/config.entity')} config
    */
   writing: async (generator, config) => {
-    const appName = config.name;
-    const packages = config.id.split('.');
+    const packages = config.projectId.split('.');
     const replaceExts = [`.gradle`, `.java`, `.kt`, `.pro`, `.xml`];
+    const templatePath = `android_kt`;
 
-    const distPath = generator.destinationPath(appName);
-    generator.fs.copy(generator.templatePath('android_kt'), distPath, {
+    const distPath = generator.destinationPath(config.projectName);
+    generator.fs.copy(generator.templatePath(templatePath), distPath, {
       globOptions: { dot: true },
       process: (contents, targetPath) => {
         const targetExt = path.extname(targetPath);
@@ -53,8 +41,8 @@ module.exports = {
 
         return contents
           .toString()
-          .replace(/com\.github\.mkstarter/g, `${config.id}`)
-          .replace(/mkstarter/g, `${appName}`);
+          .replace(/com\.github\.mkstarter/g, `${config.projectId}`)
+          .replace(/mkstarter/g, `${config.projectName}`);
       },
       processDestinationPath: (targetPath) => {
         const keyword = `java`;

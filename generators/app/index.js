@@ -4,24 +4,23 @@ const path = require('path');
 const yosay = require('yosay');
 
 const ArgsModel = require('./models/args.model');
-const commandAndroidKotlin = require('./generators/android-kt.generator');
+const commands = [
+  require('./commands/android.command'),
+  require('./commands/android.command'),
+];
 const ConfigEntity = require('./models/config.entity');
 const validators = require('./models/inspection.model');
-
-const commands = [commandAndroidKotlin, commandAndroidKotlin];
 
 module.exports = class extends Generator {
   #argsModel;
   #configEntity;
-
-  _config;
-
-  _generator;
+  #selectedCommand;
 
   constructor(args, opts) {
     super(args, opts);
 
     this.#configEntity = new ConfigEntity();
+    this.#selectedCommand = undefined;
 
     this.#argsModel = new ArgsModel(this);
     this.#argsModel.setupReceiver();
@@ -52,28 +51,31 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async prompting() {
-    const commandType = this.#argsModel.commandType;
-    if (commandType) {
-      this.log(`You selected ${commandType}`);
+    let commandType = this.#argsModel.commandType;
+    if (validators.validateNonEmpty(commandType)) {
+      const isMatch = commands.some((c) => c.id === commandType);
+      if (!isMatch) {
+        this.log(`Don't support "${commandType}".`);
+        return;
+      }
     } else {
       const choices = [];
       for (const c of commands) {
         choices.push({ name: c.name, value: c.id });
       }
-
-      const type = (
+      commandType = (
         await this.prompt({
           type: 'list',
           name: 'type',
-          message: 'What type of extension do you want to create?',
+          message: 'What type of project do you want to create?',
           pageSize: choices.length,
           choices,
         })
       ).type;
-
-      this._generator = commands.find((g) => g.id === type);
-      await this._generator.prompting(this, this._config);
     }
+
+    this.#selectedCommand = commands.find((c) => c.id === commandType);
+    await this.#selectedCommand.prompting(this, this.#configEntity);
   }
 
   /**
@@ -96,10 +98,10 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   async writing() {
-    if (!this._generator) {
+    if (!this.#selectedCommand) {
       return;
     }
-    return this._generator.writing(this, this._config);
+    return this.#selectedCommand.writing(this, this.#configEntity);
   }
 
   /**

@@ -7,6 +7,8 @@ module.exports = class {
   static keyProjectId = `projectId`;
   static keyProjectName = `projectName`;
 
+  static typeAndroid = `android`;
+
   /**
    * 複製作業時に使うコマンド種別
    * @type {string}

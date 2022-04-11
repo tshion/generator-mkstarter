@@ -22,11 +22,12 @@ module.exports = class {
    * プロジェクトID の問い合わせ
    *
    * @param {import('./config.entity')} config 設定データ(副作用あり)
-   * @param {(id: string) => boolean} validator 利用する書式検証ロジック
+   * @param {(id: string) => boolean|string} validator 利用する書式検証ロジック
    */
   async askForProjectId(config, validator) {
     const id = this.#argsModel.projectId;
-    if (validator(id)) {
+    const result = validator(id);
+    if (typeof result === 'boolean' && result) {
       config.projectId = id;
       return Promise.resolve();
     }
@@ -52,7 +53,9 @@ module.exports = class {
       return Promise.resolve();
     }
 
-    const candidate = path.basename(this.#argsModel.destination);
+    const candidate = this.#argsModel.destination
+      ? path.basename(this.#argsModel.destination)
+      : ``;
     const answer = await this.#generator.prompt({
       type: `input`,
       name: `name`,
