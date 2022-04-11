@@ -14,12 +14,6 @@ module.exports = class {
   commandType;
 
   /**
-   * 配置先
-   * @type {string}
-   */
-  destination;
-
-  /**
    * プロジェクトID
    * @type {string}
    */

@@ -1,22 +1,18 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
 const path = require('path');
 const yosay = require('yosay');
 
 const ArgsModel = require('./models/args.model');
 const commandAndroidKotlin = require('./generators/android-kt.generator');
+const ConfigEntity = require('./models/config.entity');
+const validators = require('./models/inspection.model');
 
 const commands = [commandAndroidKotlin, commandAndroidKotlin];
 
 module.exports = class extends Generator {
   #argsModel;
-
-  /**
-   * 回答
-   * @type {{ appName: string; packageId: string; }}
-   */
-  _answers;
+  #configEntity;
 
   _config;
 
@@ -24,6 +20,8 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
+
+    this.#configEntity = new ConfigEntity();
 
     this.#argsModel = new ArgsModel(this);
     this.#argsModel.setupReceiver();
@@ -35,13 +33,17 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   initializing() {
-    this.sourceRoot(this._getSourceRootPath());
+    // Welcome
+    this.log(yosay(`Welcome to the project generator!`));
 
-    this.log(
-      yosay(
-        `Welcome to the great ${chalk.red('generator-mkstarter')} generator!`
-      )
-    );
+    const destinationPath = this.#argsModel.destination;
+    if (validators.validateNonEmpty(destinationPath)) {
+      const folderPath = path.resolve(this.destinationPath(), destinationPath);
+      this.destinationRoot(folderPath);
+    }
+
+    const sourceRootPath = path.join(this.sourceRoot(), `../../../templates`);
+    this.sourceRoot(sourceRootPath);
   }
 
   /**
@@ -120,13 +122,4 @@ module.exports = class extends Generator {
    * @see {@link https://yeoman.io/authoring/running-context.html}
    */
   // end() {}
-
-  /**
-   * テンプレートファイルのルートパス取得
-   *
-   * @see {@link https://yeoman.io/authoring/file-system.html}
-   */
-  _getSourceRootPath() {
-    return path.join(this.sourceRoot(), `../../../templates`);
-  }
 };
