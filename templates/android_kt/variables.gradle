@@ -1,0 +1,55 @@
+ext {
+    // Android 関連
+    androidSdkMin = 23
+    androidSdkTarget = 31
+    androidVersionBuildTools = '32.0.0'
+
+    // Gradle プラグインバージョン
+    gradleVersionAgp = '7.1.3'
+
+    // アプリ関連
+    def appVersionMajor = 0
+    def appVersionMinor = 0
+    def appVersionRevision = 1
+    appVersionCode = 10000 * appVersionMajor + 100 * appVersionMinor + appVersionRevision
+    appVersionName = "$appVersionMajor.$appVersionMinor.$appVersionRevision"
+
+    // ライブラリバージョン
+    libraryVersionDesugarJdk = '1.1.5'
+    libraryVersionJetpackBrowser = '1.4.0'
+    libraryVersionJetpackConstraint = '2.1.3'
+    libraryVersionJetpackCore = '1.7.0'
+    libraryVersionJetpackFragment = '1.4.1'
+    libraryVersionJetpackJunit = '1.1.3'
+    libraryVersionJetpackRecyclerView = '1.2.1'
+    libraryVersionJetpackTestCore = '1.4.0'
+    libraryVersionJetpackTestEspresso = '3.4.0'
+    libraryVersionJetpackTruth = '1.4.0'
+    libraryVersionJetpackWebkit = '1.4.0'
+    libraryVersionJUnit = '4.13.2'
+    libraryVersionKotlin = '1.6.10'
+    libraryVersionKotlinCoroutines = '1.6.0'
+    libraryVersionMaterial = '1.5.0'
+    libraryVersionRobolectric = '4.7.3'
+    libraryVersionTruth = '1.1.3'
+
+    // ライブラリ群
+    libsTest = [
+        // JUnit
+        "junit:junit:$libraryVersionJUnit",
+
+        // Truth
+        "com.google.truth:truth:$libraryVersionTruth",
+        "com.google.truth.extensions:truth-java8-extension:$libraryVersionTruth",
+    ]
+    libsTestInstrument = [
+        // AndroidX
+        "androidx.test.espresso:espresso-core:$libraryVersionJetpackTestEspresso",
+    ]
+    libsTestJetpack = [
+        // AndroidX
+        "androidx.test:core-ktx:$libraryVersionJetpackTestCore",
+        "androidx.test.ext:junit-ktx:$libraryVersionJetpackJunit",
+        "androidx.test.ext:truth:$libraryVersionJetpackTruth",
+    ]
+}

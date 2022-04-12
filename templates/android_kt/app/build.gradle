@@ -1,39 +1,79 @@
 plugins {
+    // Android
     id 'com.android.application'
+
+    // Kotlin
     id 'org.jetbrains.kotlin.android'
 }
 
 android {
+    buildFeatures {
+        dataBinding true
+        viewBinding false
+    }
+    buildToolsVersion androidVersionBuildTools
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdk 31
+    compileSdk androidSdkTarget
     defaultConfig {
         applicationId "com.github.mkstarter"
-        minSdk 23
-        targetSdk 31
+        minSdk androidSdkMin
+        targetSdk androidSdkTarget
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 1
-        versionName "0.0.1"
+        versionCode appVersionCode
+        versionName appVersionName
     }
+    flavorDimensions "mode"
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    productFlavors {
+        dev {
+            dimension "mode"
+            versionName "dev-${appVersionName}"
+        }
+
+        prd {
+            dimension "mode"
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
 dependencies {
 
-    /// AndroidX
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.core:core-ktx:1.7.0'
+    // AndroidX
+    implementation "androidx.browser:browser:$libraryVersionJetpackBrowser"
+    implementation "androidx.constraintlayout:constraintlayout:$libraryVersionJetpackConstraint"
+    implementation "androidx.core:core-ktx:$libraryVersionJetpackCore"
+    implementation "androidx.fragment:fragment-ktx:$libraryVersionJetpackFragment"
+    implementation "androidx.recyclerview:recyclerview:$libraryVersionJetpackRecyclerView"
+    implementation "androidx.webkit:webkit:$libraryVersionJetpackWebkit"
+
+    // Java 8+
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$libraryVersionDesugarJdk"
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$libraryVersionKotlinCoroutines"
 
     // Material Design
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation "com.google.android.material:material:$libraryVersionMaterial"
 }
