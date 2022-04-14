@@ -28,7 +28,7 @@ module.exports = {
   writing: async (generator, config) => {
     const packages = config.projectId.split('.');
     const replaceExts = [`.gradle`, `.java`, `.kt`, `.pro`, `.xml`];
-    const templatePath = `android_kt`;
+    const templatePath = `android`;
 
     const distPath = generator.destinationPath(config.projectName);
     generator.fs.copy(generator.templatePath(templatePath), distPath, {
