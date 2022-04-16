@@ -1,7 +1,5 @@
 {
     "recommendations": [
-        "amodio.tsl-problem-matcher",
-        "dbaeumer.vscode-eslint",
         "editorconfig.editorconfig",
         "eg2.vscode-npm-script",
         "visualstudioexptteam.vscodeintellicode"
