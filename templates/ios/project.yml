@@ -1,0 +1,28 @@
+name: mkstarter
+options:
+  groupSortPosition: top
+
+
+targets:
+  mkstarter:
+    deploymentTarget: "14.0"
+    info:
+      path: mkstarter/Info.plist
+      properties:
+        CFBundleIdentifier: com.github.tshion.mkstarter
+        CFBundleShortVersionString: "0.0.1"
+        CFBundleVersion: "1"
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: "Default Configuration"
+                UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
+                UISceneStoryboardFile: "Main"
+        UILaunchStoryboardName: LaunchScreen
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    platform: iOS
+    sources:
+        - mkstarter
+    type: application
