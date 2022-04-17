@@ -1,6 +1,8 @@
 name: mkstarter
 options:
   groupSortPosition: top
+settings:
+  PRODUCT_BUNDLE_IDENTIFIER: com.github.tshion.mkstarter
 
 
 targets:
@@ -9,17 +11,27 @@ targets:
     info:
       path: mkstarter/Info.plist
       properties:
-        CFBundleIdentifier: com.github.tshion.mkstarter
+        CFBundleDevelopmentRegion: $(DEVELOPMENT_LANGUAGE)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
         CFBundleShortVersionString: "0.0.1"
         CFBundleVersion: "1"
+        LSRequiresIPhoneOS: true
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
           UISceneConfigurations:
             UIWindowSceneSessionRoleApplication:
-              - UISceneConfigurationName: "Default Configuration"
-                UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
-                UISceneStoryboardFile: "Main"
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+                UISceneStoryboardFile: Main
+        UIApplicationSupportsIndirectInputEvents: true
         UILaunchStoryboardName: LaunchScreen
+        UIMainStoryboardFile: Main
+        UIRequiredDeviceCapabilities:
+          - armv7
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
     platform: iOS
