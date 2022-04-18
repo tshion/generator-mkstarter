@@ -8,6 +8,7 @@ module.exports = class {
   static keyProjectName = `projectName`;
 
   static typeAndroid = `android`;
+  static typeIos = `ios`;
 
   /**
    * 複製作業時に使うコマンド種別

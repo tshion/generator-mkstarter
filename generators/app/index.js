@@ -6,7 +6,7 @@ const yosay = require('yosay');
 const ArgsModel = require('./models/args.model');
 const commands = [
   require('./commands/android.command'),
-  require('./commands/android.command'),
+  require('./commands/ios.command'),
 ];
 const ConfigEntity = require('./models/config.entity');
 const validators = require('./models/inspection.model');
