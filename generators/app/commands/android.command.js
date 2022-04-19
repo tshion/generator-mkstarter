@@ -52,10 +52,11 @@ module.exports = {
 
         const targetDirName = path.dirname(targetPath);
         const targetFileName = path.basename(targetPath);
+
+        const oldPath = path.join(keyword, `com`, `github`, `tshion`, `mkstarter`);
+        const newPath = path.join(keyword, ...packages);
         return path.join(
-          targetDirName.substring(0, targetDirName.indexOf(keyword)),
-          keyword,
-          ...packages,
+          targetDirName.replace(oldPath, newPath),
           targetFileName
         );
       },
