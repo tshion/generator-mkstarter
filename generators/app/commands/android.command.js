@@ -41,7 +41,7 @@ module.exports = {
 
         return contents
           .toString()
-          .replace(/com\.github\.mkstarter/g, `${config.projectId}`)
+          .replace(/com\.github\.tshion\.mkstarter/g, `${config.projectId}`)
           .replace(/mkstarter/g, `${config.projectName}`);
       },
       processDestinationPath: (targetPath) => {

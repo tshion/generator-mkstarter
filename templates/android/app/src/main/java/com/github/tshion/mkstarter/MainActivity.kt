@@ -1,4 +1,4 @@
-package com.github.mkstarter
+package com.github.tshion.mkstarter
 
 import androidx.appcompat.app.AppCompatActivity
 

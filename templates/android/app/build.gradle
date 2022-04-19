@@ -30,7 +30,7 @@ android {
     }
     compileSdk androidSdkTarget
     defaultConfig {
-        applicationId "com.github.mkstarter"
+        applicationId "com.github.tshion.mkstarter"
         minSdk androidSdkMin
         targetSdk androidSdkTarget
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
