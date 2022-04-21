@@ -6,6 +6,7 @@ default: run-xcodegen
 init:
 	sh scripts/bootstrap.sh
 	@make run-xcodegen
+	sh scripts/copy_hooks.sh
 
 # xcodegen の実行(プロジェクトファイル生成など)
 run-xcodegen:
