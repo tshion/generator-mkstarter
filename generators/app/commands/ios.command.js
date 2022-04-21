@@ -27,6 +27,7 @@ module.exports = {
    */
   writing: async (generator, config) => {
     const replaceExts = [`.md`, `.yml`];
+    const replaceFiles = [`post-merge`];
     const templatePath = `ios`;
 
     const distPath = generator.destinationPath(config.projectName);
@@ -34,7 +35,11 @@ module.exports = {
       globOptions: { dot: true },
       process: (contents, targetPath) => {
         const targetExt = path.extname(targetPath);
-        if (!replaceExts.some((ext) => targetExt === ext)) {
+        const targetFile = path.basename(targetPath);
+        if (
+          !replaceExts.some((ext) => targetExt === ext) &&
+          !replaceFiles.some((file) => targetFile === file)
+        ) {
           return contents;
         }
 
