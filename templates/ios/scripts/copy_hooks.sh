@@ -5,3 +5,4 @@ GIT_DIR=$(git rev-parse --git-dir)
 
 # Git-hooks
 cp ${GIT_REPO}/scripts/git_hooks/* ${GIT_DIR}/hooks
+chmod +x ${GIT_DIR}/hooks/post-checkout
