@@ -21,6 +21,7 @@ ext {
     libraryVersionJetpackCore = '1.7.0'
     libraryVersionJetpackFragment = '1.4.1'
     libraryVersionJetpackJunit = '1.1.3'
+    libraryVersionJetpackNavigation = '2.4.2'
     libraryVersionJetpackRecyclerView = '1.2.1'
     libraryVersionJetpackTestCore = '1.4.0'
     libraryVersionJetpackTestEspresso = '3.4.0'
