@@ -35,6 +35,10 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
     platform: iOS
+    preBuildScripts:
+      - name: Run code formatter
+        script: |
+          mint run swift-format --configuration .swift-format --in-place --parallel --recursive mkstarter
     sources:
         - mkstarter
     type: application
