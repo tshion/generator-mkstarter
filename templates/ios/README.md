@@ -2,9 +2,9 @@
 
 ## 開発準備
 ### 初期セットアップ
-* git
-* make
-* mint
+* ```git```
+* ```make```
+* ```mint ``` ([yonaskolb/Mint](https://github.com/yonaskolb/Mint))
 
 上記コマンドが使える状態でプロジェクトルートで```make init``` を実行してください。
 
